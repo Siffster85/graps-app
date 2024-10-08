@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react';
 
 interface Event {
     id: string;
-    eventname: { text: string };
-    description: { html: string };
-    date: { text: string };
-    link: { html: string };
+    eventname: string;
+    description: string;
+    date: string;
+    link: string;
+    largeimageurl: string;
 }
 
 interface SkiddleApiResponse {
@@ -18,7 +19,7 @@ const apiKey = process.env.REACT_APP_SKIDDLE_API_KEY;
 
 const useSkiddleEvents = (searchQuery: string, latitude: number, longitude: number, radius: number) => {
     const [events, setEvents] = useState<Event[]>();
-    const [error, setError] = useState<string | null>();
+    const [error, setError] = useState<string | null>();    
     
     useEffect(() => {
     const fetchEvents = async () => {
@@ -31,11 +32,12 @@ const useSkiddleEvents = (searchQuery: string, latitude: number, longitude: numb
                 latitude: `${latitude}`,
                 longitude: `${longitude}`,
                 radius: `${radius}`,
+                //sort: "date",
                 },
             }
             
         );
-        console.log(response);
+        //console.log(response.data.results[0]);
             setEvents(response.data.results);
         } catch (error: any) {
             setError(error.message);
@@ -61,10 +63,11 @@ const useSkiddleEvents = (searchQuery: string, latitude: number, longitude: numb
             {events?.map((event) => (
                 
                 <div key={event.id}>
-                <h2>{event.eventname.text}</h2>
-                <p>{event.description.html}</p>
-                <p>{event.date.text}</p>
-                <button>LINK {event.link.html}</button>
+                <h2>{event.eventname}</h2>
+                <img src={event.largeimageurl} alt="Wrestling Poster"/>
+                <p>{event.description}</p>
+                <p>{event.date}</p>
+                <button>LINK {event.link}</button>
                 </div>
         ))}
         </div>
