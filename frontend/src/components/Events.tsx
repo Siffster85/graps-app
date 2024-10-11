@@ -67,7 +67,7 @@ const useSkiddleEvents = (searchQuery: string, latitude: number, longitude: numb
                 <img src={event.largeimageurl} alt="Wrestling Poster"/>
                 <p>{event.description}</p>
                 <p>{event.date}</p>
-                <button>LINK {event.link}</button>
+                <a href={event.link} target="_blank" rel="noopener noreferrer">Buy A Ticket</a>
                 </div>
         ))}
         </div>
