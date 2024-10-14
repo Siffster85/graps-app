@@ -7,7 +7,8 @@ const DefaultLayout = () => {
     const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
 
     if (basicUserInfo) {
-        return <Navigate replace to={"/"} />;
+        console.log("logged in", basicUserInfo);
+        return <Navigate replace to={"/members"} />;
     }
 
     return (

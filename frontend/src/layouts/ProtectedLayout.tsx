@@ -7,7 +7,8 @@ const ProtectedLayout = () => {
     const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
 
     if (!basicUserInfo) {
-        return <Navigate replace to={"/login"} />;
+        console.log("not logged in");
+        return <Navigate replace to={"/"} />;
     }
 
     return (

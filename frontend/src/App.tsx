@@ -1,7 +1,6 @@
 import React from 'react';
 import { Routes, Route } from "react-router-dom";
-import Home from './components/Home';
-import Login from './components/Login';
+import Guest from './components/Guest';
 import Register from './components/Register';
 import Members from './components/Members';
 import Admin from './components/Admin';
@@ -16,8 +15,7 @@ function App() {
     <>
       <Routes>
         <Route element={<DefaultLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Guest />} />
           <Route path="/register" element={<Register />} />
         </Route>
         
