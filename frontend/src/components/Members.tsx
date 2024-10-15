@@ -20,13 +20,9 @@ const Members = () => {
     }, [basicUserInfo, dispatch]);
 
     const handleLogout = async () => {
-        try {
         await dispatch(logout()).unwrap();
         navigate("/");
-        } catch (e) {
-        console.error(e);
         }
-    };
     return (
         <div>
             <h4>Name: {userProfileInfo?.name}</h4>

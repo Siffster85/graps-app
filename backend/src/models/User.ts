@@ -1,11 +1,13 @@
 import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
+import { Roles } from "../constants";
 
 export interface IUser extends Document {
     _id: any;
     name: string;
     email: string;
     password: string;
+    roles: string[]
     comparePassword: (enteredPassword: string) => boolean;
     }
 
@@ -22,6 +24,11 @@ export interface IUser extends Document {
     password: {
         type: String,
         required: true,
+    },
+    roles: {
+        type: [String],
+        required: true,
+        default: [Roles.Member],
     },
     });
 

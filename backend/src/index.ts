@@ -8,21 +8,22 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { authenticate } from "./middleware/authMiddleware";
 import { errorHandler } from "./middleware/errorMiddleware";
-import userRouter from "./routes/userRoutes";
+import userRouter from "./routes/userRouter";
 
 dotenv.config();
 
 interface UserBasicInfo {
     _id: any;
-    name: string;
+    //name: string;
     email: string;
+    roles: string[]
     }
     
     declare global {
         namespace Express {
-        interface Request {
-            user?: UserBasicInfo | null;
-        }
+            interface Request {
+                user?: UserBasicInfo | null;
+            }
         }
     }
 
