@@ -10,23 +10,26 @@ import NotFound from './components/NotFound';
 import DefaultLayout from "./layouts/DefaultLayout";
 import ProtectedLayout from "./layouts/ProtectedLayout";
 import { Roles } from "./constants";
+import NavBar from './components/NavBar';
+import RegisterAdmin from './components/RegisterAdmin';
 
 
 function App() {
   
   return (
     <>
+      <NavBar />
       <NotificationBar />
       <Routes>
         <Route element={<DefaultLayout />}>
           <Route path="/" element={<Guest />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/register-admin" element={<RegisterAdmin />} />
         </Route>
         
         <Route element={<ProtectedLayout 
           allowedRoles={[
             Roles.Member,
-            Roles.Lead,
             Roles.Admin,
               ]}/> }>
           <Route path="/members" element={<Members />} />

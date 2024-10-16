@@ -3,7 +3,8 @@ import { Button } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { getUser, logout } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import SearchEvents from './Events'
+import SearchEvents from './LocalEvents'
+import EventsTable from "./events/EventsTable";
 
 const Members = () => {
     const dispatch = useAppDispatch();
@@ -11,7 +12,6 @@ const Members = () => {
 
     const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
     const userProfileInfo = useAppSelector((state) => state.auth.userProfileData);
-    //console.log("basic", basicUserInfo, "profile", userProfileInfo);
 
     useEffect(() => {
         if (basicUserInfo) {            
@@ -19,16 +19,9 @@ const Members = () => {
         }
     }, [basicUserInfo, dispatch]);
 
-    const handleLogout = async () => {
-        await dispatch(logout()).unwrap();
-        navigate("/");
-        }
     return (
         <div>
-            <h4>Name: {userProfileInfo?.name}</h4>
-            <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLogout}>
-            Logout
-            </Button>
+        <EventsTable />
         <SearchEvents />
         </div>
     )

@@ -1,4 +1,4 @@
-import SearchEvents from './Events';
+import SearchEvents from './LocalEvents';
 import Login from "./Login";
 
 

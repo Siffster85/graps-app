@@ -5,7 +5,7 @@ import { getUsers } from "../slices/userSlice";
 const UserSettings = () => {
     const dispatch = useAppDispatch();
     const users = useAppSelector((state) => state.users.users);
-
+    
     useEffect(() => {
         dispatch(getUsers());
     }, []);
@@ -14,9 +14,10 @@ const UserSettings = () => {
         <>
         <h1>User Settings</h1>
         {users.map((user) => (
-            <div>
-            <h4>User Email: </h4>
-            {user.name}
+            <div key={user.id}>                
+            <h4>{user.name}</h4>
+            <h5>{user.roles}</h5>
+            User Email: {user.email} 
             </div>
         ))}
         </>

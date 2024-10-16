@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import User from "../models/User";
-import asyncHandler from "express-async-handler";
 import { AuthenticationError } from "./errorMiddleware";
 
 
@@ -25,7 +23,7 @@ const authenticate = (req: Request, res: Response, next: NextFunction) => {
         req.user = { _id: userId, email: userEmail, roles };
         next();
         } catch (e) {
-        throw new AuthenticationError("Invalid token");
+        throw new AuthenticationError("Invalid token Please log in again");
         }
     };
     

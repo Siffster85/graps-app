@@ -10,7 +10,14 @@ type User = {
 
 type NewUser = User & {
     name: string;
+    roles: string[]
 };
+
+type NewAdmin = User & {
+    name: string;
+    roles: string[]
+};
+
 
 type UserBasicInfo = {
     id: string;
@@ -40,13 +47,20 @@ const initialState: AuthApiState = {
     error: null,
 };
 
+function setUserInfoWithTimeout(userInfo: Object) {
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    setTimeout(() => {
+        localStorage.removeItem("userInfo");
+    }, 60 * 60 * 1000); // 1 hour in milliseconds
+    }
+
 export const login = createAsyncThunk(
         "login",
         async (data: User, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.post("/login", data);
             const resData = response.data;
-            localStorage.setItem("userInfo", JSON.stringify(resData));
+            setUserInfoWithTimeout(resData)
             return resData;
         } catch (error) {
             if (error instanceof AxiosError && error.response) {
@@ -65,7 +79,29 @@ export const register = createAsyncThunk(
         const response = await axiosInstance.post("/register", data);
         const resData = response.data;
 
-        localStorage.setItem("userInfo", JSON.stringify(resData));
+        setUserInfoWithTimeout(resData)
+
+        return resData;
+        } catch (error) {
+        if (error instanceof AxiosError && error.response) {
+            const errorResponse = error.response.data;
+
+            return rejectWithValue(errorResponse);
+        }
+
+        throw error;
+        }
+    }
+);
+
+export const registerAdmin = createAsyncThunk(
+    "register-admin",
+    async (data: NewAdmin, { rejectWithValue }) => {
+        try {
+        const response = await axiosInstance.post("/register-admin", data);
+        const resData = response.data;
+
+        setUserInfoWithTimeout(resData)
 
         return resData;
         } catch (error) {

@@ -6,6 +6,11 @@ export type ErrorResponse = {
 
 export enum Roles {
     Admin = "ADMIN",
-    Lead = "LEAD",
     Member = "MEMBER",
+    }
+
+export enum ButtonColor {
+        Primary = "primary",
+        Secondary = "secondary",
+        Inherit = "inherit",
     }

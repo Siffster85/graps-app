@@ -15,11 +15,11 @@ const getUser = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const getUsers = asyncHandler(async (req: Request, res: Response) => {
-    const users = await User.find({}, "name email");
+    const users = await User.find({}, "name email roles");
 
     res.status(200).json(
         users.map((user) => {
-        return { id: user._id, name: user.name, email: user.email };
+        return { id: user._id, name: user.name, email: user.email, roles: user.roles[0] };
         })
     );
 });

@@ -5,7 +5,7 @@ import { BadRequestError, AuthenticationError } from "../middleware/errorMiddlew
 import asyncHandler from "express-async-handler";
 
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, roles } = req.body;
     const userExists = await User.findOne({ email });
 
     if (userExists) {
@@ -16,6 +16,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
         name,
         email,
         password,
+        roles,
     });
 
     if (user) {

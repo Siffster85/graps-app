@@ -1,6 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
-import { Roles } from "../constants";
 
 export interface IUser extends Document {
     _id: any;
@@ -28,7 +27,6 @@ export interface IUser extends Document {
     roles: {
         type: [String],
         required: true,
-        default: [Roles.Member],
     },
     });
 

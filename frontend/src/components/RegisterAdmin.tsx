@@ -12,22 +12,22 @@ import { LockOutlined } from "@mui/icons-material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../hooks/redux-hooks";
-import { register } from "../slices/authSlice";
+import { registerAdmin } from "../slices/authSlice";
 import { showNotification, NotificationType} from "../slices/notificationSlice";
 
-const Register = () => {
+const RegisterAdmin = () => {
     const dispatch = useAppDispatch();
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const roles = ["MEMBER"]
+    const roles = ["ADMIN"]
 
 const handleRegister = async () => {
     // This is only a basic validation of inputs. Improve this as needed.
     if (name && email && password && roles) {
         dispatch(
-            register({
+            registerAdmin({
                 name,
                 email,
                 password,
@@ -59,7 +59,7 @@ const handleRegister = async () => {
             <Avatar sx={{ m: 1, bgcolor: "primary.light" }}>
             <LockOutlined />
             </Avatar>
-            <Typography variant="h5">Register</Typography>
+            <Typography variant="h5">Admin Register</Typography>
             <Box sx={{ mt: 3 }}>
             <Grid2 container spacing={2}>
                 <TextField
@@ -110,4 +110,4 @@ const handleRegister = async () => {
     );
 };
 
-export default Register;
+export default RegisterAdmin;

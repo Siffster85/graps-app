@@ -32,12 +32,10 @@ const useSkiddleEvents = (searchQuery: string, latitude: number, longitude: numb
                 latitude: `${latitude}`,
                 longitude: `${longitude}`,
                 radius: `${radius}`,
-                //sort: "date",
                 },
             }
             
         );
-        //console.log(response.data.results[0]);
             setEvents(response.data.results);
         } catch (error: any) {
             setError(error.message);
@@ -56,10 +54,11 @@ const useSkiddleEvents = (searchQuery: string, latitude: number, longitude: numb
     if (error) {
         return <div>Error fetching events: {error}</div>;
     }
-
+    //need to put this into a grid so it displays nicer
     return (
         <div>
-            <h1> Wrestling </h1>
+            
+            <h1> Local Wrestling </h1>
             {events?.map((event) => (
                 
                 <div key={event.id}>
