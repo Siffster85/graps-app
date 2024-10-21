@@ -48,11 +48,11 @@ export const getEvents = createAsyncThunk(
 
 export const getEvent = createAsyncThunk(
     "events/getOne",
-    async (eventId: number, { rejectWithValue }) => {
+    async (eventId: string, { rejectWithValue }) => {
         try {
         const response = await axiosInstance.get(`/events/${eventId}`);
         return response.data;
-        } catch (error) {
+        } catch (error) {            
         if (error instanceof AxiosError && error.response) {
             const errorResponse = error.response.data;
 
@@ -74,9 +74,15 @@ export const createEvent = createAsyncThunk(
             date: event.date,
             capacity: event.capacity,
         };
+        console.log(eventPayload, "req");
+        
         const response = await axiosInstance.post("/events", eventPayload);
+        console.log(response, "response");
+        
         return response.data;
         } catch (error) {
+            console.log(error);
+            
         if (error instanceof AxiosError && error.response) {
             const errorResponse = error.response.data;
 
@@ -158,7 +164,7 @@ export const updateEvent = createAsyncThunk(
 //   }
 // );
 
-export const eventSlice = createSlice({
+const eventSlice = createSlice({
     name: "events",
     initialState,
     reducers: {},

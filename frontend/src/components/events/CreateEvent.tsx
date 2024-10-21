@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAppDispatch } from "../../hooks/redux-hooks";
 import { createEvent } from '../../slices/eventSlice';
 import { TextField, Button } from '@mui/material';
+import { showNotification, NotificationType} from "../../slices/notificationSlice";
 
 function CreateEvent() {
     const [name, setName] = useState('');
@@ -19,7 +20,17 @@ function CreateEvent() {
         date,
         capacity: parseInt(capacity),
         };
-        dispatch(createEvent(newEvent));
+        
+        if (name && description && date && capacity){
+            dispatch(createEvent(newEvent));
+        } else {
+            dispatch(
+                showNotification({
+                    message: "Please provide all details",
+                    type: NotificationType.Error,
+                })
+            )
+        }
         // Reset form fields or handle other actions as needed
     };
 

@@ -12,6 +12,7 @@ import ProtectedLayout from "./layouts/ProtectedLayout";
 import { Roles } from "./constants";
 import NavBar from './components/NavBar';
 import RegisterAdmin from './components/RegisterAdmin';
+import UserProfile from './components/UserProfile';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
             Roles.Admin,
               ]}/> }>
           <Route path="/members" element={<Members />} />
+          <Route path="/user/:id" element={<UserProfile />} />
 
         </Route>
         <Route element={<ProtectedLayout 

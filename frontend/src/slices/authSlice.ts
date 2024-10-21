@@ -3,6 +3,7 @@ import axiosInstance from "../api/axiosInstance";
 import { AxiosError } from "axios";
 import { ErrorResponse } from "../constants";
 
+
 type User = {
     email: string;
     password: string;
@@ -47,20 +48,13 @@ const initialState: AuthApiState = {
     error: null,
 };
 
-function setUserInfoWithTimeout(userInfo: Object) {
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
-    setTimeout(() => {
-        localStorage.removeItem("userInfo");
-    }, 60 * 60 * 1000); // 1 hour in milliseconds
-    }
-
 export const login = createAsyncThunk(
         "login",
         async (data: User, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.post("/login", data);
             const resData = response.data;
-            setUserInfoWithTimeout(resData)
+            localStorage.setItem("userInfo", JSON.stringify(resData));
             return resData;
         } catch (error) {
             if (error instanceof AxiosError && error.response) {
@@ -78,9 +72,7 @@ export const register = createAsyncThunk(
         try {
         const response = await axiosInstance.post("/register", data);
         const resData = response.data;
-
-        setUserInfoWithTimeout(resData)
-
+        localStorage.setItem("userInfo", JSON.stringify(resData));
         return resData;
         } catch (error) {
         if (error instanceof AxiosError && error.response) {
@@ -101,7 +93,7 @@ export const registerAdmin = createAsyncThunk(
         const response = await axiosInstance.post("/register-admin", data);
         const resData = response.data;
 
-        setUserInfoWithTimeout(resData)
+        localStorage.setItem("userInfo", JSON.stringify(resData));
 
         return resData;
         } catch (error) {
@@ -145,13 +137,11 @@ export const getUser = createAsyncThunk(
         const response = await axiosInstance.get(`/users/${userId}`);
         return response.data;
         } catch (error) {
-        if (error instanceof AxiosError && error.response) {
-            const errorResponse = error.response.data;
-
-            return rejectWithValue(errorResponse);
-        }
-
-        throw error;
+            if (error instanceof AxiosError && error.response) {
+                const errorResponse = error.response.data;
+                return rejectWithValue(errorResponse);
+            }
+            throw error;
         }
     }
 );

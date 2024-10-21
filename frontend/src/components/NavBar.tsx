@@ -11,12 +11,14 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
-// import { NavBarItem } from './NavBarItem'
+import { useEffect } from "react";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../slices/authSlice";
+import { getUser } from "../slices/authSlice";
+import { AxiosError } from "axios";
 
 // TODO: Get as a prop
 
@@ -32,7 +34,6 @@ export default function NavBar() {
     const navigate = useNavigate();
     const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
     console.log(basicUserInfo);
-    
 
     if (basicUserInfo?.roles[0] === "ADMIN"){
         pages = [
@@ -74,7 +75,7 @@ export default function NavBar() {
         }
     };
 
-    function stringToColor(string: string) {
+/*     function stringToColor(string: string) {
         let hash = 0;
         let i;
 
@@ -90,7 +91,7 @@ export default function NavBar() {
         }
 
         return color;
-    }
+    } */
 
 /*     function stringAvatar(name: string) {
         return {
@@ -223,11 +224,9 @@ export default function NavBar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
                 >
-                {/* {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
-                ))} */}
+                <MenuItem key={basicUserInfo?.id} onClick={() => {navigate(`/user/${basicUserInfo?.id}`);}}>
+                <Typography textAlign="center">Profile</Typography>
+                </MenuItem>
                 <MenuItem onClick={handleLogout}>
                     <Typography textAlign="center">Logout</Typography>
                 </MenuItem>

@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import { authenticate } from "./middleware/authMiddleware";
 import { errorHandler } from "./middleware/errorMiddleware";
 import userRouter from "./routes/userRouter";
+import eventRouter from "./routes/eventRouter"
 
 dotenv.config();
 
@@ -51,6 +52,7 @@ app.listen(port, () => {
 
 app.use(authRouter);
 app.use("/users", authenticate, userRouter);
+app.use("/events", authenticate, eventRouter)
 
 app.use(errorHandler);
 
