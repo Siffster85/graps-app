@@ -11,16 +11,10 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
-import { useEffect } from "react";
 import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
-import { useNavigate } from "react-router-dom";
 import { logout } from "../slices/authSlice";
-import { getUser } from "../slices/authSlice";
-import { AxiosError } from "axios";
-
-// TODO: Get as a prop
 
 interface Pages {
     name: string;
@@ -33,7 +27,14 @@ export default function NavBar() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
-    console.log(basicUserInfo);
+    
+    //useEffect???
+    if (basicUserInfo){
+        if (Date.now() >= (basicUserInfo.timestamp + (60*60*1000))){
+            localStorage.clear()
+            navigate("/")
+        }
+    }
 
     if (basicUserInfo?.roles[0] === "ADMIN"){
         pages = [

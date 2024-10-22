@@ -6,6 +6,7 @@ export interface IEvent extends Document {
     description: string;
     date: string
     capacity: number
+    attendees: string[]
     }
 
     const eventSchema = new Schema<IEvent>({
@@ -25,6 +26,10 @@ export interface IEvent extends Document {
         type: Number,
         required: true,
     },
+    attendees: {
+        type: [String],
+        required: true,
+    }
     });
 
 

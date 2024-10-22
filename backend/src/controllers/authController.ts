@@ -30,6 +30,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
         name: user.name,
         email: user.email,
         roles: user.roles,
+        timestamp: Date.now()
         });
     } else {
         throw new BadRequestError("An error occurred in registering the user");
@@ -51,6 +52,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
             name: user.name,
             email: user.email,
             roles: user.roles,
+            timestamp: Date.now()
         });
         } else {
             throw new AuthenticationError("User not found / password incorrect");

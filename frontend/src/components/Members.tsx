@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { getUser } from "../slices/authSlice";
 import SearchEvents from './LocalEvents'
@@ -14,7 +14,6 @@ const Members = () => {
         dispatch(getUser(basicUserInfo.id));
         }
     }, [basicUserInfo, dispatch]);
-    console.log(localStorage.userInfo);
 
     return (
         <div>

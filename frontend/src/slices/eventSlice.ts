@@ -55,10 +55,8 @@ export const getEvent = createAsyncThunk(
         } catch (error) {            
         if (error instanceof AxiosError && error.response) {
             const errorResponse = error.response.data;
-
             return rejectWithValue(errorResponse);
         }
-
         throw error;
         }
     }
@@ -120,49 +118,6 @@ export const updateEvent = createAsyncThunk(
         }
     }
     );
-
-// export const fetchEvents = createAsyncThunk(
-//     'events/fetchevents',
-//     async () => {
-//         const response = await axios.get(`${backendBaseUrl}/events`)
-//         return response.data
-//     }
-// )
-
-// export const getEvent = createAsyncThunk(
-//   "events/getevent",
-//   async (eventId: number) => {
-//     const response = await axios.get(`${backendBaseUrl}/events/${eventId}`);
-//     return response.data;
-//   }
-// );
-
-// export const addEvent = createAsyncThunk(
-//     "events/addevent",
-//     async (event: NewEvent) => {
-//       const eventPayload: NewEvent = {
-//         name: event.name,
-//         description: event.description
-//       };
-//       const response = await axios.post(`${backendBaseUrl}/events`, eventPayload);
-//       return response.data;
-//     }
-//   );
-
-// export const updateEvent = createAsyncThunk(
-//   "events/updateevent",
-//   async (event: Event) => {
-//     const updateEventPayload: NewEvent = {
-//       name: event.name,
-//       description: event.description
-//     };
-//     const response = await axios.patch(
-//       `${backendBaseUrl}/events/${event.id}`,
-//       updateeventPayload
-//     );
-//     return response.data;
-//   }
-// );
 
 const eventSlice = createSlice({
     name: "events",

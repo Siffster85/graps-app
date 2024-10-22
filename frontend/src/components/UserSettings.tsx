@@ -8,7 +8,7 @@ const UserSettings = () => {
     
     useEffect(() => {
         dispatch(getUsers());
-    }, []);
+    }, [dispatch]);
 
     return (
         <>

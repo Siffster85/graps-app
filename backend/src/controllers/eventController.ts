@@ -8,33 +8,31 @@ const getEvents = asyncHandler(async (req: Request, res: Response ) =>{
 
     res.status(200).json(
         events.map((event) => {
-            return { id: event._id, name: event.name, description: event.description, date: event.date, capacity: event.capacity};
+            return { id: event._id, name: event.name, description: event.description, date: event.date, capacity: event.capacity, attendees: event.attendees};
         })
     )
 })
 
-/* const getEvent = asyncHandler(async (req: Request, res: Response) => {
-    const eventId = req.event?._id;
+const getEvent = asyncHandler(async (req: Request, res: Response) => {
+    const eventId = req.params.eventId
     const event = await Event.findById(eventId, "name description date capacity");
 
     if (!event) {
-        throw new BadRequestError("User not available");
+        throw new BadRequestError("Event not available");
     }
-
     res.status(200).json(event);
-}); */
-
+});
 
 const createEvent = asyncHandler(async (req: Request, res: Response) => {
-    const { name, description, date, capacity } = req.body;
-    console.log(req);
-    
+    const { name, description, date, capacity, attendees } = req.body;
+
 
     const event = await Event.create({
         name,
         description,
         date,
         capacity,
+        attendees,
     })
 
     if (event) {
@@ -43,7 +41,8 @@ const createEvent = asyncHandler(async (req: Request, res: Response) => {
             name: event.name,
             description: event.description,
             date: event.date,
-            capacity: event.capacity
+            capacity: event.capacity,
+            attendees: event.attendees,
         })
     } else {
         throw new BadRequestError("An error occurred creating this event");
@@ -51,6 +50,6 @@ const createEvent = asyncHandler(async (req: Request, res: Response) => {
 })
 
 
-export { createEvent, getEvents, }
+export { createEvent, getEvents, getEvent }
 
 // getEvent, updateEvent, deleteEvent

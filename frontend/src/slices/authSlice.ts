@@ -25,6 +25,7 @@ type UserBasicInfo = {
     name: string;
     email: string;
     roles: string[];
+    timestamp: number;
 };
 
 type UserProfileData = {

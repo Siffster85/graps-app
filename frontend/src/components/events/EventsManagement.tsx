@@ -19,6 +19,7 @@ const EventsManagerment = () => {
             <h4>{event.name}</h4>
             <h5>{event.description}</h5>
             {event.capacity}
+            <a href ={`event/admin/${event.id}`}>Manage Event</a>
             </div>
         ))}
         </>
