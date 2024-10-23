@@ -6,12 +6,13 @@ import { AxiosError } from "axios";
 export type NewEvent = {
     name: string;
     description: string;
-    date: string
-    capacity: number
+    date: string;
+    capacity: number;
 };
 
 export type Event = NewEvent & {
     id: string;
+    attendees: [string];
 };
 
 interface EventState {
@@ -19,6 +20,11 @@ interface EventState {
     selectedEvent: Event | undefined;
     status: "idle" | "loading" | "failed";
     error: string | null;
+}
+
+export type Attendance = {
+    userId: string,
+    eventId: string,
 }
 
 const initialState: EventState = {
@@ -62,6 +68,30 @@ export const getEvent = createAsyncThunk(
     }
 );
 
+export const attendEvent = createAsyncThunk(
+    "events/attendEvent",
+    async (attendance: Attendance, {rejectWithValue}) => {
+        const userId = attendance.userId
+        const eventId = attendance.eventId
+        try{
+            console.log("slice");
+            
+            const response = await axiosInstance.patch(`/events/${eventId}/attend`, {
+            userId
+            });
+            console.log(response.data);
+            
+            return response.data;
+        } catch (error) {            
+            if (error instanceof AxiosError && error.response) {
+                const errorResponse = error.response.data;
+                return rejectWithValue(errorResponse);
+            }
+            throw error;
+            }
+        }
+)
+
 export const createEvent = createAsyncThunk(
     "events/createOne",
     async (event: NewEvent, { rejectWithValue }) => {
@@ -72,15 +102,9 @@ export const createEvent = createAsyncThunk(
             date: event.date,
             capacity: event.capacity,
         };
-        console.log(eventPayload, "req");
-        
         const response = await axiosInstance.post("/events", eventPayload);
-        console.log(response, "response");
-        
         return response.data;
         } catch (error) {
-            console.log(error);
-            
         if (error instanceof AxiosError && error.response) {
             const errorResponse = error.response.data;
 
@@ -92,15 +116,35 @@ export const createEvent = createAsyncThunk(
     }
 );
 
+export const deleteEvent = createAsyncThunk(
+    "events/deleteOne",
+    async (eventId: string, { rejectWithValue }) => {        
+        try {
+            const response = await axiosInstance.delete(`/events/admin/${eventId}`);
+            console.log(response);
+            
+            return response.data;
+            } catch (error) {            
+            if (error instanceof AxiosError && error.response) {
+                const errorResponse = error.response.data;
+                return rejectWithValue(errorResponse);
+            }
+            throw error;
+        }
+    }
+    );
+
 export const updateEvent = createAsyncThunk(
     "events/updateOne",
     async (event: Event, { rejectWithValue }) => {
         try {
-        const updateEventPayload: NewEvent = {
+        const updateEventPayload: Event = {
+            id: event.id,
             name: event.name,
             description: event.description,
             date: event.date,
             capacity: event.capacity,
+            attendees: event.attendees
         };
         const response = await axiosInstance.patch(
             `/events/${event.id}`,
@@ -187,11 +231,44 @@ const eventSlice = createSlice({
             if (index !== -1) {
                 state.events[index] = updatedEvent;
             }
-            }
-        )
+        })
         .addCase(updateEvent.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.error.message || "Failed to update event.";
+        })
+
+        .addCase(attendEvent.pending, (state) => {
+            state.status = "loading";
+            state.error = null;
+        })
+        .addCase(
+            attendEvent.fulfilled,
+            (state, action: PayloadAction<Event>) => {
+            state.status = "idle";
+            const updatedEvent = action.payload;
+            const index = state.events.findIndex(
+                (event) => event.id === updatedEvent.id
+            );
+            if (index !== -1) {
+                state.events[index] = updatedEvent;
+            }
+        })
+        .addCase(attendEvent.rejected, (state, action) => {
+            state.status = "failed";
+            state.error = action.error.message || "Failed to update event.";
+        })
+        .addCase(deleteEvent.pending, (state) => {
+            state.status = "loading";
+            state.error = null;
+        })
+        .addCase(deleteEvent.fulfilled, (state, action: PayloadAction<string>) => {
+            state.status = "idle";
+            const entityId = action.payload;
+            state.events = state.events.filter((event) => event.id !== entityId);
+        })
+        .addCase(deleteEvent.rejected, (state, action) => {
+            state.status = "failed";
+            state.error = action.error.message || "Failed to delete task.";
         });
     },
 });

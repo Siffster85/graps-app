@@ -8,7 +8,7 @@ function CreateEvent() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
-    const [capacity, setCapacity] = useState('');  
+    const [capacity, setCapacity] = useState(''); 
 
     const dispatch = useAppDispatch();
 

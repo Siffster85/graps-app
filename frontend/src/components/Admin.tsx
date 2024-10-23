@@ -6,7 +6,6 @@ import EventsManagerment from './events/EventsManagement'
 const Admin = () => {
     return (
         <>
-            <div>Admin</div>
             <CreateEvent />
             <EventsManagerment />
         </>

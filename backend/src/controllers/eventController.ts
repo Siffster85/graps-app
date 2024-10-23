@@ -15,7 +15,7 @@ const getEvents = asyncHandler(async (req: Request, res: Response ) =>{
 
 const getEvent = asyncHandler(async (req: Request, res: Response) => {
     const eventId = req.params.eventId
-    const event = await Event.findById(eventId, "name description date capacity");
+    const event = await Event.findById(eventId, "name description date capacity attendees");
 
     if (!event) {
         throw new BadRequestError("Event not available");
@@ -49,7 +49,41 @@ const createEvent = asyncHandler(async (req: Request, res: Response) => {
 }
 })
 
+const deleteEvent = asyncHandler(async (req: Request, res: Response) => {    
+    const eventId = req.params.eventId
+    console.log(eventId);
+    const event = await Event.findByIdAndDelete(eventId);
 
-export { createEvent, getEvents, getEvent }
+    if(!event) {
+        throw new BadRequestError("Event not available");
+    }
+    res.status(200).json(event);
+})
 
-// getEvent, updateEvent, deleteEvent
+const updateEvent = asyncHandler(async (req: Request, res: Response) => {  
+})
+
+
+const attendEvent = asyncHandler(async (req: Request, res: Response) => {
+    const eventId = req.params.eventId
+    const userId = req.body.userId
+    const event = await Event.findById(eventId);
+    if (event?.attendees?.includes(userId)) {
+        throw new Error("Already Attending")
+    }
+    const updatedEvent = await Event.findByIdAndUpdate(
+        eventId,
+        { $push: { attendees: userId } },
+        { new: true }
+    );
+    if (!updatedEvent) {
+        throw new Error('Event not found');
+    }
+
+    res.status(200).json(updatedEvent);
+});
+
+
+
+export { createEvent, getEvents, getEvent, deleteEvent, updateEvent, attendEvent }
+

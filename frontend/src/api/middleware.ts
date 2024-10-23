@@ -14,16 +14,7 @@ export const axiosMiddleware: Middleware =
             message: errorMessage,
             })
         );
-        } else if (action.type.endsWith("/fulfilled")) {
-        const successMessage = action.payload?.message || "Sucess!";
-
-        dispatch(
-            showNotification({
-            type: NotificationType.Success,
-            message: successMessage,
-            })
-        );
-        }
+        } 
 
         return next(action);
     };
