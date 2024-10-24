@@ -5,7 +5,7 @@ import Register from './components/Register';
 import Members from './components/Members';
 import Admin from './components/Admin';
 import NotificationBar from './components/notification/NotificationBar';
-import UserSettings from './components/UserSettings';
+import UserManagement from './components/UserManagement';
 import NotFound from './components/NotFound';
 import DefaultLayout from "./layouts/DefaultLayout";
 import ProtectedLayout from "./layouts/ProtectedLayout";
@@ -42,7 +42,7 @@ function App() {
         </Route>
         <Route element={<ProtectedLayout 
           allowedRoles={[ Roles.Admin ]}/> }>
-          <Route path="/user-settings" element={<UserSettings />} />
+          <Route path="/user-admin" element={<UserManagement />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/event/admin/:eventId" element={<EventManager />} />
         </Route>

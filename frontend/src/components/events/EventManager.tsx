@@ -10,8 +10,6 @@ const EventManager = () => {
     const event = useAppSelector((state) => state.events.selectedEvent);
     const { eventId } = useParams();
     const navigate = useNavigate()
-    console.log(event?.attendees);
-    
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
 

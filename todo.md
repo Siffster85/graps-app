@@ -1,6 +1,5 @@
 MVP:
-
-    - Member control page
+    - Update Events
     - Add to Google Calendar Function
 
 Extensions:

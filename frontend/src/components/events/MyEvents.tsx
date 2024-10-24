@@ -19,7 +19,7 @@ const MyEvents = () => {
         const payload = {type: "cancel", userId: userId, eventId: eventId}
         dispatch(attendEvent(payload))
         navigate("/members")
-  }
+      }
     }
 
 

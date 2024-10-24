@@ -51,7 +51,6 @@ const createEvent = asyncHandler(async (req: Request, res: Response) => {
 
 const deleteEvent = asyncHandler(async (req: Request, res: Response) => {    
     const eventId = req.params.eventId
-    console.log(eventId);
     const event = await Event.findByIdAndDelete(eventId);
 
     if(!event) {

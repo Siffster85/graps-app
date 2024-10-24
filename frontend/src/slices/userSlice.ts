@@ -40,6 +40,22 @@ export const getUsers = createAsyncThunk(
     }
 );
 
+export const deleteUser = createAsyncThunk(
+    "events/deleteOne",
+    async (userId: string, { rejectWithValue }) => {        
+        try {
+            const response = await axiosInstance.delete(`/users/user-admin/${userId}`);
+            return response.data;
+            } catch (error) {            
+            if (error instanceof AxiosError && error.response) {
+                const errorResponse = error.response.data;
+                return rejectWithValue(errorResponse);
+            }
+            throw error;
+        }
+    }
+    );
+
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -66,6 +82,19 @@ const userSlice = createSlice({
             } else {
             state.error = action.error.message || "Retrieving users failed";
             }
+        })
+        .addCase(deleteUser.pending, (state) => {
+            state.status = "loading";
+            state.error = null;
+        })
+        .addCase(deleteUser.fulfilled, (state, action: PayloadAction<string>) => {
+            state.status = "idle";
+            const entityId = action.payload;
+            state.users = state.users.filter((user) => user.id !== entityId);
+        })
+        .addCase(deleteUser.rejected, (state, action) => {
+            state.status = "failed";
+            state.error = action.error.message || "Failed to delete task.";
         });
     },
 });

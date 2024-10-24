@@ -24,4 +24,13 @@ const getUsers = asyncHandler(async (req: Request, res: Response) => {
     );
 });
 
-export { getUser, getUsers };
+const deleteUser = asyncHandler(async (req :Request, res: Response) => {
+    const userId =req.params.id;
+    const event = await User.findByIdAndDelete(userId);
+    if(!event) {
+        throw new BadRequestError("Event not available");
+    }
+    res.status(200).json(event);
+})
+
+export { getUser, getUsers, deleteUser };

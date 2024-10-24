@@ -39,8 +39,8 @@ export default function NavBar() {
     if (basicUserInfo?.roles[0] === "ADMIN"){
         pages = [
         { name: "Events", link: "/members" },
-        { name: "User Settings", link: "/user-settings" },
-        { name: "Admin", link: "/admin" },
+        { name: "User Admin", link: "/user-admin" },
+        { name: "Event Admin", link: "/admin" },
         ];}
 
 
