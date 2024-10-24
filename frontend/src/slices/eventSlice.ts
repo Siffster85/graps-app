@@ -23,6 +23,7 @@ interface EventState {
 }
 
 export type Attendance = {
+    type: string,
     userId: string,
     eventId: string,
 }
@@ -70,16 +71,31 @@ export const getEvent = createAsyncThunk(
 
 export const attendEvent = createAsyncThunk(
     "events/attendEvent",
-    async (attendance: Attendance, {rejectWithValue}) => {
-        const userId = attendance.userId
-        const eventId = attendance.eventId
+    async (payload: Attendance, {rejectWithValue}) => {
+        const type = payload.type
+        const userId = payload.userId
+        const eventId = payload.eventId
+
         try{
             console.log("slice");
+            let payload = {}
+
+            if(type === "attend"){
+                payload = {
+                    $push: { attendees: userId }
+                };
+            }
+            if(type === "cancel"){
+                payload = {
+                    $pull: { attendees: userId }
+                };
+            }
             
             const response = await axiosInstance.patch(`/events/${eventId}/attend`, {
-            userId
+            payload
             });
             console.log(response.data);
+            
             
             return response.data;
         } catch (error) {            

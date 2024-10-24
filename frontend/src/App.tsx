@@ -36,7 +36,7 @@ function App() {
             Roles.Admin,
               ]}/> }>
           <Route path="/members" element={<Members />} />
-          <Route path="/users/:id" element={<UserProfile />} />
+          <Route path="/user/:id" element={<UserProfile />} />
           <Route path="/events/:eventId" element={<Event />} />
 
         </Route>

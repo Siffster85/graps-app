@@ -1,13 +1,14 @@
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { attendEvent, getEvent } from '../../slices/eventSlice'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 const Event = () => {
     const dispatch = useAppDispatch();
     const event = useAppSelector((state) => state.events.selectedEvent);
     const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
     const {eventId} = useParams()   
+    const navigate = useNavigate()
     
     useEffect(() => {
         if(eventId){
@@ -19,8 +20,9 @@ const Event = () => {
         if( event && eventId && basicUserInfo){
             console.log("frontend");
             
-            const attend = {userId: basicUserInfo.id, eventId: eventId}
-            dispatch(attendEvent(attend))
+            const payload = {type: "attend", userId: basicUserInfo.id, eventId: eventId}
+            dispatch(attendEvent(payload))
+            navigate("/members")
         }
     }
 

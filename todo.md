@@ -1,8 +1,6 @@
 MVP:
 
     - Member control page
-    - Events component to go in Members Page
-    - New Event function to go in Admin Page
     - Add to Google Calendar Function
 
 Extensions:

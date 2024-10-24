@@ -4,7 +4,7 @@ import { BadRequestError } from "../middleware/errorMiddleware";
 import asyncHandler from "express-async-handler";
 
 const getEvents = asyncHandler(async (req: Request, res: Response ) =>{
-    const events = await Event.find({}, "name description date capacity");
+    const events = await Event.find({}, "name description date capacity attendees");
 
     res.status(200).json(
         events.map((event) => {
@@ -66,14 +66,19 @@ const updateEvent = asyncHandler(async (req: Request, res: Response) => {
 
 const attendEvent = asyncHandler(async (req: Request, res: Response) => {
     const eventId = req.params.eventId
-    const userId = req.body.userId
+    const payload = req.body.payload
+    let userId = ""
+    if (req.body.payload.$push){
+        userId = req.body.payload.$push.attendees
+    }
+    
     const event = await Event.findById(eventId);
     if (event?.attendees?.includes(userId)) {
         throw new Error("Already Attending")
     }
     const updatedEvent = await Event.findByIdAndUpdate(
         eventId,
-        { $push: { attendees: userId } },
+        payload,
         { new: true }
     );
     if (!updatedEvent) {
