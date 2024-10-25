@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Select, MenuItem,        InputLabel, FormControl, } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers/';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
@@ -21,7 +21,7 @@ const EventManager = () => {
     const [updatedName, setUpdatedName] = useState(event?.name || "");
     const [updatedDescription, setUpdatedDescription] = useState(event?.description || "");
     const [updatedDateTime, setUpdatedDateTime] = useState(event?.dateTime || null);
-    const [updatedCapacity, setUpdatedCapacity] = useState(event?.capacity || "");
+    const [updatedCapacity, setUpdatedCapacity] = useState(event?.capacity || 0);
 
     useEffect(() => {
         if (eventId) {
@@ -56,16 +56,16 @@ const EventManager = () => {
                 id: eventId,
                 name: updatedName,
                 description: updatedDescription,
-                dateTime: updatedDateTime?.toDate(),
-                capacity: parseInt(updatedCapacity),
+                dateTime: updatedDateTime,
+                capacity: updatedCapacity,
                 attendees: event?.attendees
             })
             );
             // Update local state with updated event
             dispatch(getEvent(eventId)); // Optional: refetch to update local state
             setOpenUpdateModal(false);
-
-    }
+            }
+        }
 
     return (
         <div>
@@ -123,7 +123,7 @@ const EventManager = () => {
                 type="number"
                 fullWidth
                 value={updatedCapacity}
-                onChange={(e) => setUpdatedCapacity(e.target.value)}
+                onChange={(e) => setUpdatedCapacity(parseInt(e.target.value))}
                 />
             </DialogContent>
             <DialogActions>
