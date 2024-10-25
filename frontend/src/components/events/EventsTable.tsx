@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { getEvents } from '../../slices/eventSlice'
+import dayjs from 'dayjs';
 
 const EventsTable = () => {
     const dispatch = useAppDispatch();
@@ -8,16 +9,16 @@ const EventsTable = () => {
     
     useEffect(() => {
         dispatch(getEvents());
-    }, []);
+    }, [dispatch]);
 
     return (
         <>
         <h1>Events Table</h1>
         {events.map((event) => (
             <div key={event.id}>  
-            <>{event.date}</>              
             <h4>{event.name}</h4>
-            <h5>{event.description}</h5>
+            <>{dayjs(event.dateTime).format('DD/MM/YYYY HH:mm')}</>               
+            <p>{event.description}</p>
             {event.capacity}
             <a href ={`events/${event.id}`}>Details</a>
             </div>

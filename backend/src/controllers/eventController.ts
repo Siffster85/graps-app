@@ -4,18 +4,18 @@ import { BadRequestError } from "../middleware/errorMiddleware";
 import asyncHandler from "express-async-handler";
 
 const getEvents = asyncHandler(async (req: Request, res: Response ) =>{
-    const events = await Event.find({}, "name description date capacity attendees");
+    const events = await Event.find({}, "name description dateTime capacity attendees");
 
     res.status(200).json(
         events.map((event) => {
-            return { id: event._id, name: event.name, description: event.description, date: event.date, capacity: event.capacity, attendees: event.attendees};
+            return { id: event._id, name: event.name, description: event.description, dateTime: event.dateTime, capacity: event.capacity, attendees: event.attendees};
         })
     )
 })
 
 const getEvent = asyncHandler(async (req: Request, res: Response) => {
     const eventId = req.params.eventId
-    const event = await Event.findById(eventId, "name description date capacity attendees");
+    const event = await Event.findById(eventId, "name description dateTime capacity attendees");
 
     if (!event) {
         throw new BadRequestError("Event not available");
@@ -24,13 +24,13 @@ const getEvent = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const createEvent = asyncHandler(async (req: Request, res: Response) => {
-    const { name, description, date, capacity, attendees } = req.body;
+    const { name, description, dateTime, capacity, attendees } = req.body;
 
 
     const event = await Event.create({
         name,
         description,
-        date,
+        dateTime,
         capacity,
         attendees,
     })
@@ -40,7 +40,7 @@ const createEvent = asyncHandler(async (req: Request, res: Response) => {
             id: event._id,
             name: event.name,
             description: event.description,
-            date: event.date,
+            dateTime: event.dateTime,
             capacity: event.capacity,
             attendees: event.attendees,
         })

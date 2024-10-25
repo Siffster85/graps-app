@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 export type NewEvent = {
     name: string;
     description: string;
-    date: string;
+    dateTime: Date | null;
     capacity: number;
 };
 
@@ -115,7 +115,7 @@ export const createEvent = createAsyncThunk(
         const eventPayload: NewEvent = {
             name: event.name,
             description: event.description,
-            date: event.date,
+            dateTime: event.dateTime,
             capacity: event.capacity,
         };
         const response = await axiosInstance.post("/events", eventPayload);
@@ -158,7 +158,7 @@ export const updateEvent = createAsyncThunk(
             id: event.id,
             name: event.name,
             description: event.description,
-            date: event.date,
+            dateTime: event.dateTime,
             capacity: event.capacity,
             attendees: event.attendees
         };

@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { useAppDispatch } from "../../hooks/redux-hooks";
 import { createEvent } from '../../slices/eventSlice';
 import { TextField, Button } from '@mui/material';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers/';
 import { showNotification, NotificationType} from "../../slices/notificationSlice";
+import dayjs from 'dayjs';
+
 
 function CreateEvent() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [date, setDate] = useState('');
+    const [dateTime, setDateTime] = useState<Date | null>(null);
     const [capacity, setCapacity] = useState(''); 
 
     const dispatch = useAppDispatch();
@@ -17,12 +21,16 @@ function CreateEvent() {
         const newEvent = {
         name,
         description,
-        date,
+        dateTime,
         capacity: parseInt(capacity),
         };
         
-        if (name && description && date && capacity){
+        if (name && description && dateTime && capacity){
             dispatch(createEvent(newEvent));
+            setName('');
+            setDescription('');
+            setDateTime(null);
+            setCapacity('');
         } else {
             dispatch(
                 showNotification({
@@ -31,7 +39,6 @@ function CreateEvent() {
                 })
             )
         }
-        // Reset form fields or handle other actions as needed
     };
 
 
@@ -55,17 +62,20 @@ function CreateEvent() {
                 margin="normal"  
         
             />
-            <TextField
-                label="Date"
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                fullWidth
-                margin="normal"
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateTimePicker
+                label="Date and Time"
+                format=" DD / MM / YYYY hh:mm a"
+                value={dateTime ? dayjs(dateTime) : null}
+                onChange={(newValue) => {
+                    if (newValue) {
+                    setDateTime(newValue.toDate());
+                    }
+                }}
             />
+            </LocalizationProvider>
             <TextField
                 label="Capacity"  
-        
                 type="number"
                 value={capacity}
                 onChange={(e) => setCapacity(e.target.value)}

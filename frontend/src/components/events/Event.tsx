@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { attendEvent, getEvent } from '../../slices/eventSlice'
 import { useParams, useNavigate } from 'react-router-dom'
+import dayjs from 'dayjs'
 
 const Event = () => {
     const dispatch = useAppDispatch();
@@ -39,8 +40,8 @@ const Event = () => {
         <div>
         {event ? (
             <div key={event.id}>
-                <>{event.date}</>
                 <h4>{event.name}</h4>
+                <>{dayjs(event.dateTime).format('DD/MM/YYYY HH:mm')}</> 
                 <p>{event.description}</p>
                 { basicUserInfo?.roles.includes("ADMIN") ? (`Current spots: ${event.capacity - event.attendees.length}`) : eventId && userId && event.attendees.includes(userId) ? (
                 <button onClick={() => handleCancel(eventId)}>Cancel</button>

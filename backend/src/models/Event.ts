@@ -4,7 +4,7 @@ export interface IEvent extends Document {
     _id: any;
     name: string;
     description: string;
-    date: string
+    dateTime: Date
     capacity: number
     attendees: string[]
     }
@@ -18,8 +18,8 @@ export interface IEvent extends Document {
         type: String,
         required: true,
     },
-    date: {
-        type: String,
+    dateTime: {
+        type: Date,
         required: true,
     },
     capacity: {
