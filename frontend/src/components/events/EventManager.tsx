@@ -20,13 +20,14 @@ const EventManager = () => {
     const [openUpdateModal, setOpenUpdateModal] = useState(false);
     const [updatedName, setUpdatedName] = useState(event?.name || "");
     const [updatedDescription, setUpdatedDescription] = useState(event?.description || "");
-    const [updatedDateTime, setUpdatedDateTime] = useState(event?.dateTime || null);
+    const [updatedStartDateTime, setUpdatedStartDateTime] = useState(event?.startDateTime || null);
+    const [updatedEndDateTime, setUpdatedEndDateTime] = useState(event?.endDateTime || null);
     const [updatedCapacity, setUpdatedCapacity] = useState(event?.capacity || 0);
 
     useEffect(() => {
         if (eventId) {
-        dispatch(getEvent(eventId))
         dispatch(getUsers());;
+        dispatch(getEvent(eventId))
         }
     }, [eventId, dispatch]);
 
@@ -49,20 +50,30 @@ const EventManager = () => {
     };
 
     const handleUpdate = async () => {
+        if(event){
+        setUpdatedName(event.name)
+        setUpdatedDescription(event.description)
+        setUpdatedStartDateTime(event.startDateTime)
+        setUpdatedEndDateTime(event.endDateTime)
+        setUpdatedCapacity(event.capacity)
+        }
+        setOpenUpdateModal(true)
+    }
+    const confirmUpdate = async () => {
+        
         if (eventId && event) {
-            // Update event with all fields
             await dispatch(
             updateEvent({
                 id: eventId,
                 name: updatedName,
                 description: updatedDescription,
-                dateTime: updatedDateTime,
+                startDateTime: updatedStartDateTime,
+                endDateTime: updatedEndDateTime,
                 capacity: updatedCapacity,
                 attendees: event?.attendees
             })
             );
-            // Update local state with updated event
-            dispatch(getEvent(eventId)); // Optional: refetch to update local state
+            dispatch(getEvent(eventId));
             setOpenUpdateModal(false);
             }
         }
@@ -72,7 +83,8 @@ const EventManager = () => {
         {event ? (
             <div key={event.id}>
             <h4>{event.name}</h4>
-            <>{dayjs(event.dateTime).format('DD/MM/YYYY HH:mm')}</> 
+            <p>Start: {dayjs(event.startDateTime).format('DD/MM/YYYY HH:mm')}</p>    
+            <p>End: {dayjs(event.endDateTime).format('DD/MM/YYYY HH:mm')}</p>   
             <p>{event.description}</p>
             <p> Capacity remaining: {event.capacity - event.attendees.length}</p>
             <p>Attendees:</p>
@@ -107,12 +119,22 @@ const EventManager = () => {
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
-                    label="Date and Time"
+                    label="Start Date and Time"
                     format="DD / MM / YYYY hh:mm a"
-                    value={updatedDateTime ? dayjs(updatedDateTime) : null}
+                    value={updatedStartDateTime ? dayjs(updatedStartDateTime) : null}
                     onChange={(newValue) => {
                     if (newValue) {
-                        setUpdatedDateTime(newValue.toDate());
+                        setUpdatedStartDateTime(newValue.toDate());
+                    }
+                    }}
+                />
+                <DateTimePicker
+                    label="End Date and Time"
+                    format="DD / MM / YYYY hh:mm a"
+                    value={updatedEndDateTime ? dayjs(updatedEndDateTime) : null}
+                    onChange={(newValue) => {
+                    if (newValue) {
+                        setUpdatedEndDateTime(newValue.toDate());
                     }
                     }}
                 />
@@ -128,7 +150,7 @@ const EventManager = () => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => setOpenUpdateModal(false)}>Cancel</Button>
-                <Button variant="contained" color="primary" onClick={handleUpdate}>
+                <Button variant="contained" color="primary" onClick={confirmUpdate}>
                 Update
                 </Button>
             </DialogActions>

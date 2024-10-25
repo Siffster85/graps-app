@@ -15,6 +15,7 @@ import RegisterAdmin from './components/RegisterAdmin';
 import UserProfile from './components/UserProfile';
 import Event from './components/events/Event';
 import EventManager from './components/events/EventManager';
+import MyEvents from './components/events/MyEvents';
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
             Roles.Admin,
               ]}/> }>
           <Route path="/members" element={<Members />} />
+          <Route path="/my-events" element={<MyEvents />} />
           <Route path="/user/:id" element={<UserProfile />} />
           <Route path="/events/:eventId" element={<Event />} />
 

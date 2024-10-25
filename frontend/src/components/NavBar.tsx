@@ -21,14 +21,13 @@ interface Pages {
     link: string;
 }
 
-let pages: Pages[] = [{ name: "Events", link: "/members" }]
+let pages: Pages[] = [{ name: "Events", link: "/members" }, {name: "My Events", link: "/my-events"}]
 
 export default function NavBar() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
     
-    //useEffect???
     if (basicUserInfo){
         if (Date.now() >= (basicUserInfo.timestamp + (60*60*1000))){
             localStorage.clear()

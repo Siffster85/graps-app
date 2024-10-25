@@ -4,9 +4,10 @@ export interface IEvent extends Document {
     _id: any;
     name: string;
     description: string;
-    dateTime: Date
-    capacity: number
-    attendees: string[]
+    startDateTime: Date;
+    endDateTime: Date;
+    capacity: number;
+    attendees: string[];
     }
 
     const eventSchema = new Schema<IEvent>({
@@ -18,7 +19,11 @@ export interface IEvent extends Document {
         type: String,
         required: true,
     },
-    dateTime: {
+    startDateTime: {
+        type: Date,
+        required: true,
+    },
+    endDateTime: {
         type: Date,
         required: true,
     },

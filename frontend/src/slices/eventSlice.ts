@@ -6,7 +6,8 @@ import { AxiosError } from "axios";
 export type NewEvent = {
     name: string;
     description: string;
-    dateTime: Date | null;
+    startDateTime: Date | null;
+    endDateTime: Date | null;
     capacity: number;
 };
 
@@ -75,11 +76,8 @@ export const attendEvent = createAsyncThunk(
         const type = payload.type
         const userId = payload.userId
         const eventId = payload.eventId
-
         try{
-            console.log("slice");
             let payload = {}
-
             if(type === "attend"){
                 payload = {
                     $push: { attendees: userId }
@@ -90,13 +88,9 @@ export const attendEvent = createAsyncThunk(
                     $pull: { attendees: userId }
                 };
             }
-            
             const response = await axiosInstance.patch(`/events/${eventId}/attend`, {
             payload
             });
-            console.log(response.data);
-            
-            
             return response.data;
         } catch (error) {            
             if (error instanceof AxiosError && error.response) {
@@ -115,7 +109,8 @@ export const createEvent = createAsyncThunk(
         const eventPayload: NewEvent = {
             name: event.name,
             description: event.description,
-            dateTime: event.dateTime,
+            startDateTime: event.startDateTime, 
+            endDateTime: event.endDateTime,
             capacity: event.capacity,
         };
         const response = await axiosInstance.post("/events", eventPayload);
@@ -137,8 +132,6 @@ export const deleteEvent = createAsyncThunk(
     async (eventId: string, { rejectWithValue }) => {        
         try {
             const response = await axiosInstance.delete(`/events/admin/${eventId}`);
-            console.log(response);
-            
             return response.data;
             } catch (error) {            
             if (error instanceof AxiosError && error.response) {
@@ -158,7 +151,8 @@ export const updateEvent = createAsyncThunk(
             id: event.id,
             name: event.name,
             description: event.description,
-            dateTime: event.dateTime,
+            startDateTime: event.startDateTime, 
+            endDateTime: event.endDateTime,
             capacity: event.capacity,
             attendees: event.attendees
         };

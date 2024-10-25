@@ -17,7 +17,8 @@ const EventsTable = () => {
         {events.map((event) => (
             <div key={event.id}>  
             <h4>{event.name}</h4>
-            <>{dayjs(event.dateTime).format('DD/MM/YYYY HH:mm')}</>               
+            <p>Start: {dayjs(event.startDateTime).format('DD/MM/YYYY HH:mm')}</p>    
+            <p>End: {dayjs(event.endDateTime).format('DD/MM/YYYY HH:mm')}</p>                
             <p>{event.description}</p>
             {event.capacity}
             <a href ={`events/${event.id}`}>Details</a>

@@ -11,7 +11,8 @@ import dayjs from 'dayjs';
 function CreateEvent() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [dateTime, setDateTime] = useState<Date | null>(null);
+    const [startDateTime, setStartDateTime] = useState<Date | null>(null);
+    const [endDateTime, setEndDateTime] = useState<Date | null>(null);
     const [capacity, setCapacity] = useState(''); 
 
     const dispatch = useAppDispatch();
@@ -21,15 +22,17 @@ function CreateEvent() {
         const newEvent = {
         name,
         description,
-        dateTime,
+        startDateTime,
+        endDateTime,
         capacity: parseInt(capacity),
         };
         
-        if (name && description && dateTime && capacity){
+        if (name && description && startDateTime && endDateTime && capacity){
             dispatch(createEvent(newEvent));
             setName('');
             setDescription('');
-            setDateTime(null);
+            setStartDateTime(null);
+            setEndDateTime(null);
             setCapacity('');
         } else {
             dispatch(
@@ -64,12 +67,22 @@ function CreateEvent() {
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker
-                label="Date and Time"
+                label="Start Date and Time"
                 format=" DD / MM / YYYY hh:mm a"
-                value={dateTime ? dayjs(dateTime) : null}
+                value={startDateTime ? dayjs(startDateTime) : null}
                 onChange={(newValue) => {
                     if (newValue) {
-                    setDateTime(newValue.toDate());
+                    setStartDateTime(newValue.toDate());
+                    }
+                }}
+            />
+            <DateTimePicker
+                label="Finish Date and Time"
+                format=" DD / MM / YYYY hh:mm a"
+                value={endDateTime ? dayjs(endDateTime) : null}
+                onChange={(newValue) => {
+                    if (newValue) {
+                    setEndDateTime(newValue.toDate());
                     }
                 }}
             />
