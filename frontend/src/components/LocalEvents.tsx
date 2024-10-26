@@ -1,5 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Image from 'mui-image'; 
 
 interface Event {
     id: string;
@@ -56,20 +59,27 @@ const useSkiddleEvents = (searchQuery: string, latitude: number, longitude: numb
     }
     //need to put this into a grid so it displays nicer
     return (
-        <div>
-            
-            <h1> Local Wrestling </h1>
-            {events?.map((event) => (
-                
-                <div key={event.id}>
-                <h2>{event.eventname}</h2>
-                <img src={event.largeimageurl} alt="Wrestling Poster"/>
-                <p>{event.description}</p>
-                <p>{event.date}</p>
-                <a href={event.link} target="_blank" rel="noopener noreferrer">Buy A Ticket</a>
-                </div>
+        <Grid container spacing={2}>
+        {events?.map((event: Event) => (
+          <Grid item xs={12} md={6} key={event.id}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <Image src={event.largeimageurl} alt={event.eventname + ' Poster'} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Box sx={{ p: 2 }}>
+                  <h2>{event.eventname}</h2>
+                  <p>{event.description}</p>
+                  <p>{event.date}</p>
+                  <a href={event.link} target="_blank" rel="noopener noreferrer">
+                    Buy A Ticket
+                  </a>
+                </Box>
+              </Grid>
+            </Grid>
+          </Grid>
         ))}
-        </div>
+      </Grid>
     );
     }
 

@@ -10,7 +10,8 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import SettingsIcon from '@mui/icons-material/Settings';
+import SportsKabaddiIcon from '@mui/icons-material/SportsKabaddi';
 import { Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
@@ -21,7 +22,7 @@ interface Pages {
     link: string;
 }
 
-let pages: Pages[] = [{ name: "Events", link: "/members" }, {name: "My Events", link: "/my-events"}]
+let pages: Pages[] = []
 
 export default function NavBar() {
     const dispatch = useAppDispatch();
@@ -34,6 +35,12 @@ export default function NavBar() {
             navigate("/")
         }
     }
+
+    if (basicUserInfo?.roles[0] === "MEMBER"){
+        pages = [
+            { name: "Events", link: "/members" }, 
+            {name: "My Events", link: "/my-events"}
+        ];}
 
     if (basicUserInfo?.roles[0] === "ADMIN"){
         pages = [
@@ -75,38 +82,11 @@ export default function NavBar() {
         }
     };
 
-/*     function stringToColor(string: string) {
-        let hash = 0;
-        let i;
-
-        for (i = 0; i < string.length; i += 1) {
-        hash = string.charCodeAt(i) + ((hash << 5) - hash);
-        }
-
-        let color = "#";
-
-        for (i = 0; i < 3; i += 1) {
-        const value = (hash >> (i * 8)) & 0xff;
-        color += `00${value.toString(16)}`.slice(-2);
-        }
-
-        return color;
-    } */
-
-/*     function stringAvatar(name: string) {
-        return {
-        sx: {
-            bgcolor: stringToColor(name),
-        },
-        children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
-        };
-    }
- */
     return (
         <AppBar position="static">
         <Container maxWidth={false}>
             <Toolbar disableGutters>
-            <TaskAltIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+            <SportsKabaddiIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
             <Typography
                 variant="h6"
                 noWrap
@@ -167,7 +147,7 @@ export default function NavBar() {
                 ))}
                 </Menu>
             </Box>
-            <TaskAltIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+            <SportsKabaddiIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
             <Typography
                 variant="h5"
                 noWrap
@@ -204,8 +184,7 @@ export default function NavBar() {
             <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="avatar">X</Avatar>
-                    {/* <Avatar {...stringAvatar('FName LName')} /> */}
+                    <SettingsIcon sx={{color:'white'}}/>
                 </IconButton>
                 </Tooltip>
                 <Menu
