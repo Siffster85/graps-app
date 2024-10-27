@@ -16,12 +16,14 @@ import UserProfile from './components/UserProfile';
 import Event from './components/events/Event';
 import EventManager from './components/events/EventManager';
 import MyEvents from './components/events/MyEvents';
+import { ThemeProvider } from '@mui/material';
+import appTheme from './appTheme';
 
 
 function App() {
   
   return (
-    <>
+      <ThemeProvider theme={appTheme}>
       <NavBar />
       <NotificationBar />
       <Routes>
@@ -35,7 +37,7 @@ function App() {
           allowedRoles={[
             Roles.Member,
             Roles.Admin,
-              ]}/> }>
+          ]}/> }>
           <Route path="/members" element={<Members />} />
           <Route path="/my-events" element={<MyEvents />} />
           <Route path="/user/:id" element={<UserProfile />} />
@@ -50,7 +52,7 @@ function App() {
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </>
+      </ThemeProvider>
   );
 }
 

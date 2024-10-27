@@ -10,12 +10,17 @@ import {
 } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../hooks/redux-hooks";
 import { registerAdmin } from "../slices/authSlice";
 import { showNotification, NotificationType} from "../slices/notificationSlice";
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+
 const RegisterAdmin = () => {
+    const navigate = useNavigate()
     const dispatch = useAppDispatch();
 
     const [name, setName] = useState("");
@@ -24,8 +29,7 @@ const RegisterAdmin = () => {
     const roles = ["ADMIN"]
 
 const handleRegister = async () => {
-    // This is only a basic validation of inputs. Improve this as needed.
-    if (name && email && password && roles) {
+    if (name && emailRegex.test(email) && passwordRegex.test(password) && roles) {
         dispatch(
             registerAdmin({
                 name,
@@ -33,6 +37,21 @@ const handleRegister = async () => {
                 password,
                 roles,
             })
+            )
+            navigate("/admin")
+        } else if(!emailRegex.test(email)){
+            dispatch(
+                showNotification({
+                    message: "Please provide valid email address",
+                    type: NotificationType.Error,
+                })
+            )
+        } else if(!passwordRegex.test(password)){
+            dispatch(
+                showNotification({
+                    message: "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase  letter, one number, and one special character.",
+                    type: NotificationType.Error,
+                })
             )
         } else {
             dispatch(
@@ -100,8 +119,8 @@ const handleRegister = async () => {
             >
                 Register
             </Button>
-            <Grid2 container justifyContent="flex-end">
-                <Link to="/login">Already have an account? Login</Link>
+            <Grid2 container justifyContent="center">
+                <Link to="/">Already have an account? Login</Link>
             </Grid2>
             </Box>
         </Box>

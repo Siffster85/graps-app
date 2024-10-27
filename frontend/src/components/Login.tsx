@@ -21,7 +21,8 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleLogin = async () => {
+    const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
     // This is only a basic validation of inputs. Improve this as needed.
     if (email && password) {
     dispatch(
@@ -46,7 +47,8 @@ const Login = () => {
         <CssBaseline />
         <Box
             sx={{
-            mt: 20,
+            mt: 5,
+            mb: 5,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -57,6 +59,7 @@ const Login = () => {
             </Avatar>
             <Typography variant="h5">Login</Typography>
             <Box sx={{ mt: 1 }}>
+            <form onSubmit={handleLogin}>
             <TextField
                 margin="normal"
                 required
@@ -83,15 +86,16 @@ const Login = () => {
                 }}
             />
 
-            <Button
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                onClick={handleLogin}
-            >
-                Login
-            </Button>
-                <Grid2 container justifyContent={"flex-end"}>
+                <Button
+                    fullWidth
+                    variant="contained"
+                    type="submit" // Add the type="submit" attribute
+                    sx={{ mt: 3, mb: 2 }}
+                >
+                    Login
+                </Button>
+                </form>
+                <Grid2 container justifyContent={"center"}>
                 <Link to="/register">Don't have an account? Register</Link>
                 </Grid2>
             </Box>

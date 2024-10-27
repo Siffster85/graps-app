@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import { Box, Grid, Button, Typography, Tooltip } from '@mui/material';
 import Image from 'mui-image'; 
+
 
 interface Event {
     id: string;
@@ -57,23 +57,41 @@ const useSkiddleEvents = (searchQuery: string, latitude: number, longitude: numb
     if (error) {
         return <div>Error fetching events: {error}</div>;
     }
-    //need to put this into a grid so it displays nicer
     return (
         <Grid container spacing={2}>
         {events?.map((event: Event) => (
-          <Grid item xs={12} md={6} key={event.id}>
+          <Grid item xs={12} sm={6} lg={4} key={event.id}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Image src={event.largeimageurl} alt={event.eventname + ' Poster'} />
+              <Grid item xs={6} sm={6}>
+              <Tooltip title={event.description} placement='top-start' arrow>
+                <Box sx={{
+                    width: { xs: '100%' }, 
+                    margin: 1, 
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    height: '250px',
+                    '&:hover': {
+                      opacity: 0.8 // Adjust opacity as needed
+                    }
+                  }}>
+                  <Image src={event.largeimageurl} alt={event.eventname + ' Poster'} />
+                </Box>
+              </Tooltip>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ p: 2 }}>
-                  <h2>{event.eventname}</h2>
-                  <p>{event.description}</p>
-                  <p>{event.date}</p>
-                  <a href={event.link} target="_blank" rel="noopener noreferrer">
-                    Buy A Ticket
-                  </a>
+              <Grid item xs={6} sm={6} sx={{paddingRight: 2}}>
+                <Box sx={{ 
+                  width: { xs: '100%'}, 
+                  margin: 1, 
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  height: '250px', }}>
+                  <Typography variant="h2">{event.eventname}</Typography>
+                  <Typography variant="body1">{event.date}</Typography>
+                  <Button variant="contained" href={event.link} target="_blank" rel="noopener noreferrer">
+                    Skiddle
+                  </Button>
                 </Box>
               </Grid>
             </Grid>

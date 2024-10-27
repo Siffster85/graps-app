@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Typography, Box} from "@mui/material";
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers/';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
@@ -8,6 +8,15 @@ import { getEvent, deleteEvent, updateEvent } from "../../slices/eventSlice";
 import { getUsers } from "../../slices/userSlice";
 import { useParams, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import { styled } from '@mui/material/styles';
+
+const StyledEventBox = styled(Box)`
+  /* Add your desired styles here */
+    padding: 1rem;
+    border: 2px solid #ddd;
+    margin-bottom: 1rem;
+`;
+
 
 const EventManager = () => {
     const dispatch = useAppDispatch();
@@ -81,20 +90,24 @@ const EventManager = () => {
     return (
         <div>
         {event ? (
-            <div key={event.id}>
-            <h4>{event.name}</h4>
-            <p>Start: {dayjs(event.startDateTime).format('DD/MM/YYYY HH:mm')}</p>    
-            <p>End: {dayjs(event.endDateTime).format('DD/MM/YYYY HH:mm')}</p>   
-            <p>{event.description}</p>
-            <p> Capacity remaining: {event.capacity - event.attendees.length}</p>
-            <p>Attendees:</p>
+            <StyledEventBox key={event.id} sx={{marginBottom: 2}}>
+            <Typography variant='h3' sx={{marginBottom: 1 }}>{event.name}
+            </Typography>
+            <Typography variant="body1" component="p">
+            <div> Start: {dayjs(event.startDateTime).format('DD/MM/YYYY HH:mm')}</div>     
+            <div> End: {dayjs(event.endDateTime).format('DD/MM/YYYY HH:mm')}</div>    
+            <div> {event.description}</div> 
+            <div>  Capacity remaining: {event.capacity - event.attendees.length}</div> 
+            <div> Attendees:</div> 
             {event.attendees.map((attendeeId) => {
             const userId = users.find(user => user.id === attendeeId);
             return <ul key={attendeeId}>{userId?.name}</ul>
             })}
-            <button onClick={handleUpdate}>Update</button>
-            <button onClick={handleDelete}>Delete</button>
-
+            <Button sx={{ margin: 1}}
+                    variant="contained" onClick={handleUpdate}>Update</Button>
+            <Button sx={{ margin: 1, backgroundColor:"#c62828"}} variant="contained" onClick={handleDelete}>Delete</Button>
+            </Typography>
+            
             <Dialog open={openUpdateModal} onClose={() => setOpenUpdateModal(false)}>
             <DialogTitle>Update Event</DialogTitle>
             <DialogContent>
@@ -127,6 +140,7 @@ const EventManager = () => {
                         setUpdatedStartDateTime(newValue.toDate());
                     }
                     }}
+                    sx={{ marginY: 1 }} 
                 />
                 <DateTimePicker
                     label="End Date and Time"
@@ -137,6 +151,7 @@ const EventManager = () => {
                         setUpdatedEndDateTime(newValue.toDate());
                     }
                     }}
+                    sx={{ marginY: 1 }} 
                 />
                 </LocalizationProvider>
                 <TextField
@@ -155,9 +170,9 @@ const EventManager = () => {
                 </Button>
             </DialogActions>
             </Dialog>
-            </div>
+            </StyledEventBox>
         ) : (
-            <p>Loading event...</p>
+            <div> Loading event...</div> 
         )}
 
         <Dialog open={openDeleteModal} onClose={handleCancelDelete}>

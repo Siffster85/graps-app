@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography, Box } from "@mui/material";
 import { getUsers, deleteUser } from "../slices/userSlice";
+import { styled } from '@mui/material/styles';
+
+const StyledBox = styled(Box)`
+    padding: 0.5rem;
+    border: 2px solid #ddd;
+    margin-bottom: 1rem;
+`;
+
 
 const UserManagement = () => {
     const dispatch = useAppDispatch();
@@ -37,14 +45,17 @@ const UserManagement = () => {
 
     return (
         <>
-        <h1>User Management</h1>
+        <Typography variant="h2">User Management</Typography>
         {users.map((user) => (
-            <div key={user.id}>                
-            <h4>{user.name}</h4>
-            <h5>{user.roles}</h5>
-            User Email: {user.email} 
-            <button onClick={() => handleDelete(user.id)}>Delete</button>
-            </div>
+            <StyledBox key={user.id}> 
+            <Typography variant="h3">              
+            <div>{user.name}</div></Typography> 
+            <Typography variant="body1">
+            <div>Role: {user.roles}</div>
+            <div>User Email: {user.email} </div>
+            </Typography>
+            <Button sx={{ marginTop: 1, backgroundColor:"#c62828"}} variant="contained" onClick={() => handleDelete(user.id)}>Delete</Button>
+            </StyledBox>
         ))}
 
         <Dialog open={openDeleteModal} onClose={handleCancelDelete}>

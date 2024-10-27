@@ -16,10 +16,10 @@ const Members = () => {
     }, [basicUserInfo, dispatch]);
 
     return (
-        <div>
+        <>
         <EventsTable />
         <SearchEvents />
-        </div>
+        </>
     )
     }
 

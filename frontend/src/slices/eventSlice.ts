@@ -129,7 +129,7 @@ export const createEvent = createAsyncThunk(
 
 export const deleteEvent = createAsyncThunk(
     "events/deleteOne",
-    async (eventId: string, { rejectWithValue }) => {        
+    async (eventId: string, { rejectWithValue }) => {   
         try {
             const response = await axiosInstance.delete(`/events/admin/${eventId}`);
             return response.data;
