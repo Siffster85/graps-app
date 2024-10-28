@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Box, Grid, Button, Typography, Tooltip } from '@mui/material';
-import Image from 'mui-image'; 
+import { Box, Grid, Button, Typography, Tooltip } from '@mui/material'; 
 
 
 interface Event {
@@ -72,10 +71,19 @@ const useSkiddleEvents = (searchQuery: string, latitude: number, longitude: numb
                     justifyContent: 'space-between',
                     height: '250px',
                     '&:hover': {
-                      opacity: 0.8 // Adjust opacity as needed
+                      opacity: 0.8 
                     }
                   }}>
-                  <Image src={event.largeimageurl} alt={event.eventname + ' Poster'} />
+                  <Box
+                    component="img"
+                    src={event.largeimageurl}
+                    alt={event.eventname + ' Poster'}
+                    sx={{
+                      width: '100%',
+                      height: 'auto',
+                      objectFit: 'cover', 
+                    }}
+                  />
                 </Box>
               </Tooltip>
               </Grid>
