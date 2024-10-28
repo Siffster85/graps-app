@@ -29,16 +29,17 @@ interface UserBasicInfo {
 
 const app = express();
 const port = process.env.PORT || 8000;
-app.use(helmet())
 
 
 app.use(
     cors({
-        origin: "https://graps-app.vercel.app/",
+        origin: "https://nwwrestling.netlify.app",
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
         credentials: true,
     })
 );
 
+app.use(helmet())
 app.use(cookieParser());
 
 app.use(bodyParser.json());

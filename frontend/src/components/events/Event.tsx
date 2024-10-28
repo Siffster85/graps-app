@@ -47,7 +47,7 @@ const Event = () => {
         }
 
     return (
-        <div>
+        <>
         {event ? (
             <StyledEventBox key={event.id}> 
                 <Typography variant="h3" component="h3"><h3>{event.name}</h3></Typography>
@@ -83,7 +83,7 @@ const Event = () => {
             <p>Loading event...</p>
             </Typography>
             )} 
-        </div>
+        </>
     )
     }
 

@@ -81,7 +81,8 @@ const useSkiddleEvents = (searchQuery: string, latitude: number, longitude: numb
                     sx={{
                       width: '100%',
                       height: 'auto',
-                      objectFit: 'cover', 
+                      objectFit: 'cover',
+                      padding: 1, 
                     }}
                   />
                 </Box>

@@ -16,7 +16,7 @@ const generateToken = (res: Response, payload: TokenPayload) => {
     res.cookie("jwt", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV !== "development",
-        sameSite: "strict",
+        sameSite: "none",
         maxAge: 60 * 60 * 1000,
     });
     };
