@@ -1,21 +1,20 @@
 import express from 'express';
-import authRouter from "./routes/authRouter";
-import connectUserDB from "./connections/userDB";
+import authRouter from "../src/routes/authRouter";
+import connectUserDB from "../src/connections/userDB";
 import dotenv from "dotenv";
 import helmet from 'helmet';
 import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { authenticate } from "./middleware/authMiddleware";
-import { errorHandler } from "./middleware/errorMiddleware";
-import userRouter from "./routes/userRouter";
-import eventRouter from "./routes/eventRouter"
+import { authenticate } from "../src/middleware/authMiddleware";
+import { errorHandler } from "../src/middleware/errorMiddleware";
+import userRouter from "../src/routes/userRouter";
+import eventRouter from "../src/routes/eventRouter"
 
 dotenv.config();
 
 interface UserBasicInfo {
     _id: any;
-    //name: string;
     email: string;
     roles: string[]
     }
@@ -57,3 +56,5 @@ app.use("/events", authenticate, eventRouter)
 app.use(errorHandler);
 
 connectUserDB();
+
+module.exports = app
