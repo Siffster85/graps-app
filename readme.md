@@ -14,11 +14,11 @@ Some of the promotions also have a membership element where they pre-purchase a 
 Test Accounts:
 
 Test Member Account:
-email: testuser@test.test
+email: test@test.test
 pw: !Test123
 
 Test Admin Account
-email: testadmin@test.test
+email: admin@test.test
 pw: !Admin123
 
 The Frontend is hosted here:
